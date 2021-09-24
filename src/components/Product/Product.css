@@ -1,0 +1,13 @@
+.product-area{
+    display: flex;
+    border-bottom: 2px solid grey;
+    padding-bottom: 10px;
+}
+.product-area button{
+    width: 150px;
+    height: 30px;
+    background-color: goldenrod;
+    border: 1px solid green;
+    border-radius: 10px;
+    cursor: pointer;
+}

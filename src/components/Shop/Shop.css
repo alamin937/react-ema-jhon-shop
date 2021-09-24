@@ -1,0 +1,24 @@
+.all-area{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+.product-show{
+    border-right: 2px solid grey;
+    margin-left: 20%;
+    overflow: scroll;
+}
+.order{
+    margin-left: 10px;
+    text-align: center;
+}
+.search-area{
+    background-color: rgba(0, 0, 0, 0.815);
+   padding: 10px;
+}
+.search-area input{
+    margin-left: 40px;
+    width: 500px;
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+}
