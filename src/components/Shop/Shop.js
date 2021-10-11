@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
@@ -10,13 +11,29 @@ const Shop = () => {
     const [cart, setCart] = useState([])
 
     useEffect(()=>{
-        fetch('./products.JSON')
+        fetch('./products.json')
         .then(res => res.json())
         .then(data => {
             setProducts(data);
             setDisplayProduct(data);
         })
     },[])
+
+    useEffect(()=>{
+            if(products.length){
+                const savedCart = getStoredCart();
+                const storedCard = [];
+                for(const key in savedCart){
+                    const addedProduct = products.find(product=> product.key === key);
+                    if(addedProduct){
+                        const quantity = savedCart[key];
+                        addedProduct.quantity=  quantity;
+                        storedCard.push(addedProduct)
+                    }
+                }
+                setCart(storedCard);
+            }
+    },[products])
 
 
     useEffect(()=>{
@@ -25,7 +42,19 @@ const Shop = () => {
     },[])
 
     const handleButton = product =>{
-        const newCart = [...cart, product]
+        const exits = cart.find(pd => pd.key === product.key)
+        let newCart = [];
+        if(exits){
+
+            const rest = cart.filter(pd => pd.key !== product.key)
+            exits.quantity = exits.quantity + 1
+            newCart = [...rest, product];
+            
+        }
+        else{
+            product.quantity = 1;
+            newCart = [...cart, product];
+        }
         setCart(newCart)
         addToDb(product.key)
     }
@@ -47,7 +76,11 @@ const Shop = () => {
                }
            </div>
            <div className='order'>
-               <Cart cart={cart}></Cart>
+               <Cart cart={cart}>
+                   <Link to='/order'>
+                       <button className="product-area">Review order</button>
+                   </Link>
+               </Cart>
            </div>
         </div>
         </div>
